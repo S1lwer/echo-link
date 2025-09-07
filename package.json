@@ -1,0 +1,15 @@
+{
+  "name": "echolink",
+  "version": "1.0.0",
+  "description": "Lite Messanger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mishail Tretyak",
+  "license": "MIT",
+  "dependencies": {
+    "app": "^0.1.0",
+    "express": "^5.1.0"
+  }
+}

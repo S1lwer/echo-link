@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./app.js" type="module" defer></script>
+    <title>Echo Link</title>
+</head>
+<body>
+    <div id="root">
+        <div id="app">
+<aside class="left-side-bar">   
+
+
+
+   <div class="left-side-bar-head"> 
+    <input placeholder="поиск" type="search" id="search" aria-label="поиск чатов"> 
+    <div class="left-side-bar-nav">
+        <button id="chat-btn" class="left-side-bar-nav-btn"><img src="./assets/icons/message-square-dot.svg" alt=""></button>
+    <button id="group-btn"  class="left-side-bar-nav-btn active"><img src="./assets/icons/user-pen.svg" alt=""></button>
+    <button id="calls-btn" class="left-side-bar-nav-btn"><img src="./assets/icons/phone.svg" alt=""></button>
+    </div>
+    
+</div>
+
+<div class="left-side-bar-chat" id="chat-1">
+<img src="./assets/icons/icon.png" alt=""><div class="chat-name">EyeCode Team</div>
+
+</div>
+
+<div class="left-side-bar-account">
+<div class="left-side-bar-account-avatar"><img src="./assets/icons/avatar.png" alt=""></div>
+<div class="left-side-bar-account-name">mikhail</div>
+
+</div>
+
+
+
+</aside>
+
+        <div class="chat">
+       <div class="chat-display"></div>
+       <div class="chat-area">
+
+
+          <div class="chat-area-wrapper">
+           <button id="audio-msg">
+                <img src="./assets/icons/mic.svg" alt="">
+            </button>
+          <div id="chat-area-input">
+             
+         <button><img src="./assets/icons/smile.svg" alt="">
+         <input type="text" placeholder="Type a message">
+         </button>
+         <img src="./assets/icons/folder.svg" alt="">
+         <input type="file" id="file" hidden>
+
+
+
+
+         </div>
+
+
+          </div>
+         
+
+
+       </div>
+
+
+
+        </div>
+
+
+
+        <aside class="right-side-bar"></aside>
+
+        </div>
+        
+    </div>
+</body>
+</html>
