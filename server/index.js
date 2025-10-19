@@ -30,7 +30,7 @@ io.on('connection',(socket) =>{
 
 
 
-server.listen(port,"192.168.31.37",()=>{
+server.listen(port,()=>{
 console.log(`сервер запущен на порту ${port}`)
 
 })
