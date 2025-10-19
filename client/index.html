@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style/style.css">
     <script src="./app.js" type="module" defer></script>
+    <link rel="manifest" href="./manifest.json">
+    <script src="/socket.io/socket.io.js"></script>
     <title>Echo Link</title>
 </head>
 <body>
@@ -15,7 +17,7 @@
 
 
    <div class="left-side-bar-head"> 
-    <input placeholder="поиск" type="search" id="search" aria-label="поиск чатов"> 
+    <input autocomplete="off" placeholder="поиск" type="search" id="search" aria-label="поиск чатов"> 
     <div class="left-side-bar-nav">
         <button id="chat-btn" class="left-side-bar-nav-btn"><img src="./assets/icons/message-square-dot.svg" alt=""></button>
     <button id="group-btn"  class="left-side-bar-nav-btn active"><img src="./assets/icons/user-pen.svg" alt=""></button>
@@ -38,29 +40,50 @@
 
 
 </aside>
-
+<aside class="mobile-side-bar">
+    <button id="mobile-menu-btn"><img src="./assets/icons/command.svg" alt="mobile-switch-btn"></button>
+</aside>
         <div class="chat">
-       <div class="chat-display"></div>
+
+
+
+              
+       <div  class="chat-display">
+        <ul id="messages">
+            <li></li>
+        </ul>
+       </div>
        <div class="chat-area">
+
+          <div class="mic-wrapper">
+            <button id="send-mic"><img src="./assets/icons/mic.svg" alt=""></button>
+          </div>
 
 
           <div class="chat-area-wrapper">
-           <button id="audio-msg">
-                <img src="./assets/icons/mic.svg" alt="">
-            </button>
+          
           <div id="chat-area-input">
-             
+              
          <button><img src="./assets/icons/smile.svg" alt="">
-         <input type="text" placeholder="Type a message">
-         </button>
-         <img src="./assets/icons/folder.svg" alt="">
+            </button>
+            <form id="form" action="">
+                <input autocomplete="off" id="msg-input" type="text" placeholder="Type a message">
+            </form>
+         
+         <button>
+            <img src="./assets/icons/folder.svg" alt="">
          <input type="file" id="file" hidden>
+         </button>
+         
+         
 
 
 
 
          </div>
-
+<button id="audio-msg">
+                <img src="./assets/icons/mic.svg" alt="">
+            </button>
 
           </div>
          
@@ -79,5 +102,79 @@
         </div>
         
     </div>
+
+<script>
+const socket = io()
+const username = prompt('Enter your name');
+let mediaRecorder = null;
+let audioChunks = []
+
+socket.emit("set username",username)
+
+const form = document.getElementById('form')
+const input = document.getElementById('msg-input')
+const messages = document.getElementById('messages')
+const sendMic = document.getElementById('send-mic')
+const audioMsg = document.getElementById('audio-msg')
+const micWrapper = document.querySelector('.mic-wrapper')
+
+
+audioMsg.addEventListener('click', async () => {
+try{
+    micWrapper.classList.toggle('active')
+    console.log('start 0')
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true})
+    console.log('start 1')
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e) => {
+    audioChunks.push(e.data);
+    }
+    mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, {type: 'audio/webm'})
+        audioChunks = []
+        socket.emit('voice message', audioBlob)
+        const audioURL = URL.createObjectURL(audioBlob)
+        const audio = document.createElement('audio')
+        audio.src = audioURL;
+        audio.controls = true;
+        messages.appendChild(audio)
+    }
+        mediaRecorder.start()
+    
+}catch(err){
+    console.log(err)
+};
+})
+sendMic.addEventListener('click',() => {
+    mediaRecorder.stop()
+    micWrapper.classList.toggle('active')
+})
+form.addEventListener('submit',(e)=>{
+e.preventDefault();
+if(input.value){
+    socket.emit('chat message', input.value)
+    input.value = '';
+}
+})
+socket.on('chat message', (msg)=>{
+    const item = document.createElement('li')
+    item.textContent = `${msg.user} : ${msg.message}`
+    messages.appendChild(item)
+
+})
+
+
+
+
+</script>
+
+
+<script>
+
+</script>
+
+
+
+
 </body>
 </html>
