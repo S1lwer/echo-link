@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index",
-    "start": "node /server/index.html"
+    "start": "node /server/index.js"
   },
   "author": "Mishail Tretyak",
   "license": "MIT",
